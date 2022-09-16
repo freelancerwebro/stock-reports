@@ -11,13 +11,14 @@ use Illuminate\Http\Request;
 class StockReportsService
 {
     public function __construct(
-        private StockArrayHelper $stockArrayHelper
+        private StockArrayHelper $stockArrayHelper,
+        private Client $client
     ) {
     }
 
     private function getRawData(string $symbol)
     {
-        $client = new Client([
+        $client = new $this->client([
             'headers' => [
                 'X-RapidAPI-Host' => config('rapidapi.header_host'),
                 'X-RapidAPI-Key' => config('rapidapi.header_key'),
