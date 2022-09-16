@@ -35,12 +35,13 @@ class StockArrayHelperTest extends TestCase
                 'high' => '109.12000274658',
             ]
         ];
+
+        $this->helper = new StockArrayHelper();
     }
 
     public function test_fail_with_empty_array()
     {
-        $helper = new StockArrayHelper();
-        $result = $helper->filterArrayByRange([], '', '');
+        $result = $this->helper->filterArrayByRange([], '', '');
 
         $this->assertEquals(
             [],
@@ -50,8 +51,7 @@ class StockArrayHelperTest extends TestCase
 
     public function test_fail_with_wrong_date_strings()
     {
-        $helper = new StockArrayHelper();
-        $result = $helper->filterArrayByRange($this->array, 'aaa', 'bbb');
+        $result = $this->helper->filterArrayByRange($this->array, 'aaa', 'bbb');
 
         $this->assertEquals(
             [],
@@ -61,8 +61,7 @@ class StockArrayHelperTest extends TestCase
 
     public function test_fail_with_invalid_dates()
     {
-        $helper = new StockArrayHelper();
-        $result = $helper->filterArrayByRange($this->array, '2022-09-16', '2022-09-15');
+        $result = $this->helper->filterArrayByRange($this->array, '2022-09-16', '2022-09-15');
 
         $this->assertEquals(
             [],
@@ -72,8 +71,7 @@ class StockArrayHelperTest extends TestCase
 
     public function test_success()
     {
-        $helper = new StockArrayHelper();
-        $result = $helper->filterArrayByRange($this->array, '2022-09-14', '2022-09-16');
+        $result = $this->helper->filterArrayByRange($this->array, '2022-09-14', '2022-09-16');
 
         $this->assertEquals(
             [

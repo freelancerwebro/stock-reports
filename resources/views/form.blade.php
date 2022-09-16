@@ -1,23 +1,3 @@
-<?php
-
-$dataPoints = array(
-    array("x" => 1483209000000, "y" => array( 104.4, 111.89, 99.11, 109.18)),
-    array("x" => 1485887400000, "y" => array( 110.58, 120.92, 95.7, 101.48)),
-    array("x" => 1488306600000, "y" => array( 103.79, 110, 95.17, 108.93)),
-    array("x" => 1490985000000, "y" => array( 104.74, 147, 102.31, 144.35)),
-    array("x" => 1493577000000, "y" => array( 144.99, 168.5, 142.11, 144.56)),
-    array("x" => 1496255400000, "y" => array( 145.05, 169.93, 138.58, 162.51)),
-    array("x" => 1498847400000, "y" => array( 162.13, 174.56, 152.91, 169.44)),
-    array("x" => 1501525800000, "y" => array( 169.95, 191.2, 162.71, 178.77)),
-    array("x" => 1504204200000, "y" => array( 180.8, 207.89, 177, 206.81)),
-    array("x" => 1506796200000, "y" => array( 209.35, 218.67, 191.23, 200.71)),
-    array("x" => 1509474600000, "y" => array( 207.2, 218.67, 200.37, 216.14)),
-    array("x" => 1512066600000, "y" => array( 199.31, 200.3, 180.58, 193.5))
-)
-
-?>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,12 +12,6 @@ $dataPoints = array(
 </head>
 <body>
     <div class="container mt-4">
-{{--        @if(session('status'))--}}
-{{--            <div class="alert alert-success">--}}
-{{--                Form has been sent!--}}
-{{--            </div>--}}
-{{--        @endif--}}
-
         <div class="card">
             <div class="card-header text-left font-weight-bold">
                 <h2>Stock historical data</h2>
@@ -57,6 +31,7 @@ $dataPoints = array(
                                 onkeydown="return /[a-z]/i.test(event.key)"
                                 maxlength="5"
                                 style="text-transform:uppercase"
+                                required
                             />
 
                             @error('symbol')
@@ -111,6 +86,7 @@ $dataPoints = array(
                 </form>
             </div>
         </div>
+        @php $chartDataPoints = []; @endphp
 
         @if(session('prices'))
             <div class="card mt-4">
@@ -131,7 +107,7 @@ $dataPoints = array(
                         </tr>
                         </thead>
                         <tbody>
-
+                            @php $chartDataPoints = []; @endphp
                             @foreach (session('prices') as $row => $value)
                                 <tr>
                                     <th scope="row">@php echo ($row); @endphp</th>
@@ -142,33 +118,37 @@ $dataPoints = array(
                                     <td>@php echo $value['close']; @endphp</td>
                                     <td>@php echo $value['volume']; @endphp</td>
                                 </tr>
+
+                                @php
+                                    $pointsRow = [
+                                        'x' => $value['date'],
+                                        'y' => [
+                                            $value['open'],
+                                            $value['high'],
+                                            $value['low'],
+                                            $value['close'],
+                                        ],
+                                    ];
+                                    $chartDataPoints[] = $pointsRow;
+                                @endphp
                             @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
 
-
+            <div id="chartContainer" style="height: 370px; width: 100%;" class="mt-4"></div>
         @endif
         @if(empty(session('prices')) && is_array(session('prices')))
             <div class="alert alert-danger mt-4">
                 No results found!
             </div>
         @endif
-
-        <div id="chartContainer" style="height: 370px; width: 100%;" class="mt-4"></div>
     </div>
 
     <script type="text/javascript">
         $( function() {
             var dateFormat = "yy-mm-dd";
-
-            // $( "#start_date" ).datepicker({
-            //     dateFormat: dateFormat
-            // })
-            // $( "#end_date" ).datepicker({
-            //     dateFormat: dateFormat
-            // })
 
             var from = $( "#start_date" ).datepicker({
                 dateFormat: dateFormat,
@@ -191,7 +171,6 @@ $dataPoints = array(
                 } catch( error ) {
                     date = null;
                 }
-
                 return date;
             }
 
@@ -214,7 +193,7 @@ $dataPoints = array(
                     xValueType: "dateTime",
                     yValueFormatString: "$#,##0.0",
                     xValueFormatString: "MMM",
-                    dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+                    dataPoints: <?php echo json_encode($chartDataPoints, JSON_NUMERIC_CHECK); ?>
                 }]
             });
             chart.render();
