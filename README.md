@@ -30,16 +30,16 @@ php artisan test
 ## Preview
 
 #### Initial look
-![app preview](https://raw.githubusercontent.com/freelancerwebro/stock-reports/main/resources/1.png)
+![app preview](https://raw.githubusercontent.com/freelancerwebro/stock-reports/main/resources/images/1.png)
 
 #### No records found
-![app preview](https://raw.githubusercontent.com/freelancerwebro/stock-reports/main/resources/1.5.png)
+![app preview](https://raw.githubusercontent.com/freelancerwebro/stock-reports/main/resources/images/1.5.png)
 
 #### Datepicker usage
-![app preview](https://raw.githubusercontent.com/freelancerwebro/stock-reports/main/resources/2.png)
+![app preview](https://raw.githubusercontent.com/freelancerwebro/stock-reports/main/resources/images/2.png)
 
 #### Data found
-![app preview](https://raw.githubusercontent.com/freelancerwebro/stock-reports/main/resources/3.png)
+![app preview](https://raw.githubusercontent.com/freelancerwebro/stock-reports/main/resources/images/3.png)
 
 #### Charts
-![app preview](https://raw.githubusercontent.com/freelancerwebro/stock-reports/main/resources/4.png)
+![app preview](https://raw.githubusercontent.com/freelancerwebro/stock-reports/main/resources/images/4.png)
