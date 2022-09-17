@@ -6,14 +6,9 @@ namespace App\Http\Controllers;
 
 use App\Events\FormSubmitEvent;
 use App\Http\Requests\FormPostRequest;
-use App\Models\Company;
 use App\Services\StockReportsService;
-use Carbon\Carbon;
-use GuzzleHttp\Client;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class FormController extends Controller

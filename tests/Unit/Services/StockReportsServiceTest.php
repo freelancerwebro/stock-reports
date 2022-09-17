@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
-use App\Helpers\StockArrayHelper;
 use App\Services\StockReportsService;
 use Illuminate\Http\Request;
 use Mockery;
 use Tests\TestCase;
-use TypeError;
 
 class StockReportsServiceTest extends TestCase
 {
