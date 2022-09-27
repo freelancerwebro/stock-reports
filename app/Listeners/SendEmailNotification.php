@@ -5,20 +5,16 @@ declare(strict_types=1);
 namespace App\Listeners;
 
 use App\Events\FormSubmitEvent;
-use Symfony\Component\Mailer\Mailer;
-use Symfony\Component\Mailer\Transport\SendmailTransport;
-use Symfony\Component\Mime\Email;
+use App\Mail\FormSend;
+use Illuminate\Support\Facades\Mail;
 
 class SendEmailNotification
 {
-    private $subject = 'For submitted Company Symbol = %s => Company’s Name = %s';
-    private $body = 'From %s to %s';
+    private string $subject = 'For submitted Company Symbol = %s => Company’s Name = %s';
+    private string $body = 'From %s to %s';
 
-    public function handle(FormSubmitEvent $event)
+    public function handle(FormSubmitEvent $event): void
     {
-        $transport = new SendmailTransport();
-        $mailer = new Mailer($transport);
-
         $subject = sprintf(
             $this->subject,
             $event->getSymbol(),
@@ -30,13 +26,11 @@ class SendEmailNotification
             $event->getEndDate()
         );
 
-        $email = (new Email())
-            ->from('sender@example.test')
-            ->to($event->getEmail())
-            ->priority(Email::PRIORITY_HIGHEST)
-            ->subject($subject)
-            ->text($body);
-
-        //$mailer->send($email);
+        Mail::to($event->getEmail())->send(
+            new FormSend(
+                $subject,
+                $body
+            )
+        );
     }
 }

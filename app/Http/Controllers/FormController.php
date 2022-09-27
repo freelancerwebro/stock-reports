@@ -36,12 +36,13 @@ class FormController extends Controller
                 ));
             }
 
-            return redirect('/')->with('status', 'OK')
-                ->with('prices', $prices);
+            return redirect('/')
+                ->with('prices', $prices)
+                ->withInput();
         } catch (\Throwable $exception) {
             Log::error($exception->getMessage());
 
-            return redirect('/')->with('status', 'Internal server error!')
+            return redirect('/')->with('error', 'Internal server error!')
                 ->with('prices', []);
         }
     }

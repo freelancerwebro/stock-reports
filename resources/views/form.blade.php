@@ -32,6 +32,7 @@
                                 maxlength="5"
                                 style="text-transform:uppercase"
                                 required
+                                value="{{ old('symbol') }}"
                             />
 
                             @error('symbol')
@@ -46,6 +47,7 @@
                                 name="start_date"
                                 class="@error('start_date') is-invalid @enderror form-control"
                                 required
+                                value="{{ old('start_date') }}"
                             />
                             @error('start_date')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -59,6 +61,7 @@
                                 name="end_date"
                                 class="@error('end_date') is-invalid @enderror form-control"
                                 required
+                                value="{{ old('end_date') }}"
                             />
                             @error('end_date')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -72,6 +75,7 @@
                                 name="email"
                                 class="@error('email') is-invalid @enderror form-control"
                                 required
+                                value="{{ old('email') }}"
                             />
                             @error('email')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -142,6 +146,12 @@
         @if(empty(session('prices')) && is_array(session('prices')))
             <div class="alert alert-danger mt-4">
                 No results found!
+            </div>
+        @endif
+
+        @if(!empty(session('error')))
+            <div class="alert alert-danger mt-4">
+                {{ session('error') }}
             </div>
         @endif
     </div>
