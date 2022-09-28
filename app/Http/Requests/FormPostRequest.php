@@ -21,7 +21,7 @@ class FormPostRequest extends FormRequest
                 'max:5',
                 'exists:App\Models\Company,symbol'
             ],
-            'email' => 'required|max:255',
+            'email' => 'required|email|max:255',
             'start_date' => [
                 'required',
                 'date_format:Y-m-d',

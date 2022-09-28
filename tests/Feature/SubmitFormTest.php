@@ -6,11 +6,11 @@ use Tests\TestCase;
 
 class SubmitFormTest extends TestCase
 {
-
-    public function test_fail_when_no_symbol_provided()
+    public function test_success_open_index_page()
     {
-        $this->post('/submit', ['symbol' => 'GOOGL', 'lives' => 9])
-            ->assertStatus(302);
+        $response = $this->get('/');
+        $response->assertStatus(200);
+        $response->assertSee('Stock historical data');
+        $response->assertSee('Submit');
     }
-
 }
