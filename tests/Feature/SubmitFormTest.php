@@ -2,10 +2,13 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class SubmitFormTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_success_open_index_page()
     {
         $response = $this->get('/');
