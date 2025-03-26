@@ -44,5 +44,5 @@ RUN echo "post_max_size=50M" >> /usr/local/etc/php/conf.d/uploads.ini
 # Expose port
 EXPOSE 9000
 
-# Start PHP-FPM and run migrations
-CMD php artisan migrate --force && php-fpm
+# Start PHP-FPM and run migrations & seeders
+CMD php artisan migrate --force && php artisan db:seed --class=CompanySeeder --force && php-fpm
