@@ -115,7 +115,7 @@
                             @foreach (session('prices') as $row => $value)
                                 <tr>
                                     <th scope="row">@php echo ($row); @endphp</th>
-                                    <td>@php echo date('Y-m-d', $value['date']); @endphp</td>
+                                    <td>@php echo $value['date']; @endphp</td>
                                     <td>@php echo $value['open']; @endphp</td>
                                     <td>@php echo $value['high']; @endphp</td>
                                     <td>@php echo $value['low']; @endphp</td>
@@ -125,7 +125,7 @@
 
                                 @php
                                     $pointsRow = [
-                                        'x' => $value['date'],
+                                        'x' => strtotime($value['date']),
                                         'y' => [
                                             $value['open'],
                                             $value['high'],

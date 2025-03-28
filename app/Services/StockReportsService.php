@@ -11,8 +11,8 @@ use Illuminate\Http\Request;
 class StockReportsService
 {
     public function __construct(
-        private StockArrayHelper $stockArrayHelper,
-        private Client $client
+        private readonly StockArrayHelper $stockArrayHelper,
+        private readonly Client $client
     ) {
     }
 
@@ -35,7 +35,7 @@ class StockReportsService
         $rawData = $this->getRawData($request->input('symbol'));
 
         return $this->stockArrayHelper->filterArrayByRange(
-            $rawData['prices'] ?? [],
+            $rawData['body'] ?? [],
             (string)$request->input('start_date'),
             (string)$request->input('end_date')
         );

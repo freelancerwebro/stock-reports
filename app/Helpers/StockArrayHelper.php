@@ -14,7 +14,7 @@ class StockArrayHelper
         $startDate = strtotime($startDate);
         $endDate = strtotime($endDate);
         return array_filter($priceArray, function($row) use ($startDate, $endDate) {
-            $priceDate = (string)($row['date']);
+            $priceDate = $row['date_utc'];
             return $priceDate <= $endDate && $priceDate >= $startDate;
         });
     }
