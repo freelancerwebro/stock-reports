@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Events\FormSubmitEvent;
+use App\Events\StockDataReady;
+use App\Listeners\BroadcastStockDataReady;
 use App\Listeners\SendEmailNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -16,6 +18,10 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         FormSubmitEvent::class => [
             SendEmailNotification::class,
+        ],
+
+        StockDataReady::class => [
+            BroadcastStockDataReady::class,
         ],
     ];
 

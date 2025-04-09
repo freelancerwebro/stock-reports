@@ -4,20 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Events\FormSubmitEvent;
 use App\Http\Requests\FormPostRequest;
-use App\Services\StockReportsService;
+use App\Jobs\FetchStockDataJob;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class FormController extends Controller
 {
-    public function __construct(
-        private StockReportsService $stockReportsService
-    ) {
-    }
-
     public function index(): View
     {
         return view('form');
@@ -25,25 +19,21 @@ class FormController extends Controller
 
     public function submit(FormPostRequest $request): RedirectResponse
     {
-        try {
-            $prices = $this->stockReportsService->getPrices(
-                $request
-            );
+        $jobId = (string) Str::uuid();
 
-            if (!empty($prices)) {
-                event(new FormSubmitEvent(
-                    $request
-                ));
-            }
+        FetchStockDataJob::dispatch(
+            $request->input('symbol'),
+            $request->input('start_date'),
+            $request->input('end_date'),
+            $request->input('email'),
+            $jobId,
+        );
 
-            return redirect('/')
-                ->with('prices', $prices)
-                ->withInput();
-        } catch (\Throwable $exception) {
-            Log::error($exception->getMessage());
+        return redirect()->to("/listen/{$jobId}");
+    }
 
-            return redirect('/')->with('error', 'Internal server error!')
-                ->with('prices', []);
-        }
+    public function listen(string $jobId): View
+    {
+        return view('form', ['jobId' => $jobId]);
     }
 }

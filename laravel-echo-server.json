@@ -1,0 +1,31 @@
+{
+    "authHost": "http://stock_reports_app",
+    "authEndpoint": "/broadcasting/auth",
+    "clients": [
+        {
+            "appId": "local",
+            "key": "local",
+            "secret": "local"
+        }
+    ],
+    "database": "redis",
+    "databaseConfig": {
+        "redis": {
+            "host": "redis",
+            "port": "6379"
+        }
+    },
+    "allowedOrigins": ["*"],
+    "headers": {
+        "Access-Control-Allow-Origin": "*"
+    },
+    "devMode": true,
+    "debug": true,
+    "port": 6001,
+    "host": "0.0.0.0",
+    "protocol": "http",
+    "key": "local",
+    "secret": "local",
+    "appId": "local",
+    "cluster": "mt1"
+}

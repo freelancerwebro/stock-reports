@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Jobs;
+
+use App\Events\StockDataReady;
+use App\Services\StockReportsService;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+
+class FetchStockDataJob implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    public function __construct(
+        public string $symbol,
+        public string $startDate,
+        public string $endDate,
+        public string $email,
+        public string $jobId,
+    ) {}
+
+    /**
+     * Execute the job.
+     *
+     * @param StockReportsService $service
+     * @return void
+     */
+    public function handle(StockReportsService $service): void
+    {
+        $mock = $service->getMock();
+
+        $result = [
+            'data' => $mock['body'] ?? [],
+            'fields' => [
+                'symbol' => $this->symbol,
+                'startDate' => $this->startDate,
+                'endDate' => $this->endDate,
+                'email' => $this->email,
+            ]
+        ];
+
+        event(new StockDataReady($this->jobId, $result));
+    }
+}

@@ -143,16 +143,48 @@
 
             <div id="chartContainer" style="height: 370px; width: 100%;" class="mt-4"></div>
         @endif
-        @if(empty(session('prices')) && is_array(session('prices')))
-            <div class="alert alert-danger mt-4">
-                No results found!
-            </div>
-        @endif
 
         @if(!empty(session('error')))
             <div class="alert alert-danger mt-4">
                 {{ session('error') }}
             </div>
+        @endif
+
+        @vite(['resources/js/app.js'])
+
+        @if (!empty($jobId) && empty($errors->any()))
+            <div class="mt-4" id="loading">
+                <div class="text-left font-weight-bold">
+                    <h5>⏳ Waiting for live data...</h5>
+                </div>
+            </div>
+
+            <div class="card mt-4" id="stocks-table" style="display: none;">
+                <div class="card-header text-left font-weight-bold">
+                    <h5>Search results:</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Open</th>
+                            <th scope="col">High</th>
+                            <th scope="col">Low</th>
+                            <th scope="col">Close</th>
+                            <th scope="col">Volume</th>
+                        </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <script>
+                window.jobId = '{{ $jobId }}';
+                console.log('✅ window.jobId is set:', window.jobId);
+            </script>
         @endif
     </div>
 
@@ -184,7 +216,7 @@
                 return date;
             }
 
-            var chart = new CanvasJS.Chart("chartContainer", {
+            /*var chart = new CanvasJS.Chart("chartContainer", {
                 theme: "light2",
                 title: {
                     text: "OHLC Chart"
@@ -203,14 +235,14 @@
                     xValueType: "dateTime",
                     yValueFormatString: "$#,##0.0",
                     xValueFormatString: "MMM",
-                    dataPoints: <?php echo json_encode($chartDataPoints, JSON_NUMERIC_CHECK); ?>
+                    dataPoints: <?php //echo json_encode($chartDataPoints, JSON_NUMERIC_CHECK); ?>
                 }]
             });
-            chart.render();
+            chart.render();*/
         } );
     </script>
 
-    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <!--<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>-->
 </body>
 </html>
 
