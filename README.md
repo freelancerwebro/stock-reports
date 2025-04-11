@@ -12,11 +12,6 @@ Laravel app for parsing and displaying data from RapidAPI.
 php artisan migrate
 ```
 
-## Seeding
-```
-php artisan db:seed CompanySeeder
-```
-
 ## Usage
 ```
 http://localhost

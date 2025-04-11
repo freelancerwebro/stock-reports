@@ -1,11 +1,9 @@
 <?php
 
-namespace Database\Seeders;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
 
-use App\Models\Company;
-use Illuminate\Database\Seeder;
-
-class CompanySeeder extends Seeder
+return new class extends Migration
 {
     public static array $companies = [
         ['name' => 'iShares MSCI All Country Asia Information Technology Index Fund', 'symbol' => 'AAIT'],
@@ -2978,17 +2976,22 @@ class CompanySeeder extends Seeder
     ];
 
     /**
-     * Run the database seeds.
+     * Run the migrations.
      *
      * @return void
      */
-    public function run()
+    public function up(): void
     {
-        foreach (self::$companies as $company) {
-            Company::create([
-                'name' => $company['name'],
-                'symbol' => $company['symbol'],
-            ]);
-        }
+        DB::table('companies')->insert(self::$companies);
     }
-}
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down(): void
+    {
+        DB::table('companies')->truncate();
+    }
+};
