@@ -4,13 +4,13 @@ A Laravel-based web application for fetching, caching, and reporting historical 
 
 ## 🚀 Features
 
-- 📩 Form-based submission for stock symbol, date range, and user email
-- 📈 Fetches stock data from external API (RapidAPI)
-- 🧠 Smart caching with Redis (1-day expiration)
-- 📬 Queue-based background processing with Laravel jobs
-- 🔔 Real-time feedback with **Laravel Echo Server + Socket.IO**
-- ✅ Form validation
-- 🧪 PHPUnit tests
+- Form-based submission for stock symbol, date range, and user email
+- Fetches stock data from external API (RapidAPI)
+- Smart caching with Redis (1-day expiration)
+- Queue-based background processing with Laravel jobs
+- Real-time feedback with **Laravel Echo Server + Socket.IO**
+- Form validation
+- PHPUnit tests
 
 ## 📦 Technologies
 
@@ -20,7 +20,7 @@ A Laravel-based web application for fetching, caching, and reporting historical 
 - Redis
 - Docker / Docker Compose
 - Laravel Echo Server
-- Pusher-compatible broadcasting via Socket.IO
+- Socket.IO
 - Vite (for JS bundling)
 
 ## Installation
