@@ -29,13 +29,8 @@ class FormControllerTest extends TestCase
     {
         Queue::fake();
 
-        $company = Company::create([
-            'name' => 'Apple Inc.',
-            'symbol' => 'AAPL',
-        ]);
-
         $data = [
-            'symbol' => $company->symbol,
+            'symbol' => 'AAPL',
             'start_date' => '2025-04-01',
             'end_date' => '2025-04-05',
             'email' => 'test@example.com',
