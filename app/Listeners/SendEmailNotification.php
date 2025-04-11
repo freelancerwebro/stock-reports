@@ -4,17 +4,24 @@ declare(strict_types=1);
 
 namespace App\Listeners;
 
-use App\Events\FormSubmitEvent;
+use App\Events\StockDataReady;
 use App\Mail\FormSend;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
-class SendEmailNotification
+class SendEmailNotification implements ShouldQueue
 {
-    private string $subject = 'For submitted Company Symbol = %s => Company’s Name = %s';
+    use InteractsWithQueue;
+    private string $subject = 'Stock historical data for %s (%s)';
     private string $body = 'From %s to %s';
 
-    public function handle(FormSubmitEvent $event): void
+    public function handle(StockDataReady $event): void
     {
+        Log::debug('SendEmailNotification event triggered', [
+            'event' => $event,
+        ]);
         $subject = sprintf(
             $this->subject,
             $event->getSymbol(),

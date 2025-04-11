@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Events\FormSubmitEvent;
 use App\Events\StockDataReady;
 use App\Listeners\BroadcastStockDataReady;
 use App\Listeners\SendEmailNotification;
@@ -16,12 +15,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
-        FormSubmitEvent::class => [
-            SendEmailNotification::class,
-        ],
-
         StockDataReady::class => [
             BroadcastStockDataReady::class,
+            SendEmailNotification::class,
         ],
     ];
 
