@@ -2,18 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature;
+namespace Tests\Feature\Http\Controller;
 
-use App\Models\Company;
+use App\Jobs\FetchStockDataJob;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
 use Tests\TestCase;
-use App\Jobs\FetchStockDataJob;
 
 class FormControllerTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function beginDatabaseTransaction()
+    {
+        // no-op
+    }
 
     public function test_index_returns_form_view()
     {
