@@ -16,3 +16,4 @@ yarn-error.log
 /.vscode
 /cache
 .DS_Store
+composer-setup.php
