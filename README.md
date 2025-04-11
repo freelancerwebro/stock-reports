@@ -14,8 +14,8 @@ A Laravel-based web application for fetching, caching, and reporting historical 
 
 ## 📦 Technologies
 
-- Laravel 9+
-- PHP 8.3+
+- Laravel 12
+- PHP 8.4
 - MySQL 8
 - Redis
 - Docker / Docker Compose
