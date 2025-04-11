@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class FetchStockDataJob implements ShouldQueue
 {
@@ -30,10 +31,14 @@ class FetchStockDataJob implements ShouldQueue
      */
     public function handle(StockReportsService $service): void
     {
-        $mock = $service->getMock();
+        $prices = $service->getPrices(
+            $this->symbol,
+            $this->startDate,
+            $this->endDate
+        );
 
         $result = [
-            'data' => $mock['body'] ?? [],
+            'data' => $prices ?? [],
             'fields' => [
                 'symbol' => $this->symbol,
                 'startDate' => $this->startDate,

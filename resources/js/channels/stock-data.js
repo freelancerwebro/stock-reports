@@ -1,6 +1,8 @@
 import Echo from 'laravel-echo';
 import io from 'socket.io-client';
 
+console.log('✅ stock-data starts here');
+
 window.io = io;
 
 window.Echo = new Echo({
@@ -11,6 +13,8 @@ window.Echo = new Echo({
 });
 
 const jobId = window.jobId;
+
+console.log('✅ stock-data for jobId: ', jobId);
 
 window.Echo.channel(`stock-data.${jobId}`)
     .listen('.StockDataReady', (e) => {
@@ -61,4 +65,9 @@ window.Echo.channel(`stock-data.${jobId}`)
 
             tableBody.appendChild(row);
         });
+    });
+
+window.Echo.channel('stock-data.test-123')
+    .listen('.StockDataReady', (e) => {
+        console.log('✅ Got socket.io broadcast:', e);
     });
