@@ -6,7 +6,6 @@ namespace App\Services;
 
 use App\Helpers\StockArrayHelper;
 use GuzzleHttp\Client;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class StockReportsService
