@@ -10,7 +10,7 @@ A Laravel-based web application for fetching, caching, and reporting historical 
 - 📬 Queue-based background processing with Laravel jobs
 - 🔔 Real-time feedback with **Laravel Echo Server + Socket.IO**
 - ✅ Form validation
-- 🧪 PHPUnit test suite with job, service, and feature tests
+- 🧪 PHPUnit tests
 
 ## 📦 Technologies
 
