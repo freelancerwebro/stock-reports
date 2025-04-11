@@ -4,74 +4,85 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services;
 
+use App\Helpers\StockArrayHelper;
 use App\Services\StockReportsService;
-use Illuminate\Http\Request;
-use Mockery;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Cache;
 use Tests\TestCase;
 
 class StockReportsServiceTest extends TestCase
 {
-    protected function setUp(): void
+    public function test_get_prices_returns_filtered_data_from_api()
     {
-        parent::setUp();
-
-        $this->service = Mockery::mock(StockReportsService::class);
-        $this->request = Mockery::mock(Request::class);
-        $this->array = [
-            [
-                'date' => '1663286400', // 2022-09-16
-                'open' => '102.06999969482',
-                'high' => '103.12000274658',
-            ],
-            [
-                'date' => '1663113600', // 2022-09-14
-                'open' => '104.06999969482',
-                'high' => '105.12000274658',
+        $expectedRawData = [
+            'body' => [
+                "1744032600" => [
+                    'date' => '07-04-2025',
+                    'close' => 181.46,
+                ],
+                "1744119000" => [
+                    'date' => '08-04-2025',
+                    'close' => 184.12,
+                ]
             ]
         ];
+
+        $filtered = [
+            ['date' => '07-04-2025', 'close' => 181.46],
+        ];
+
+        Cache::shouldReceive('remember')
+            ->once()
+            ->withArgs(function ($key) {
+                return str_contains($key, 'stock_raw_data_');
+            })
+            ->andReturnUsing(function () use ($expectedRawData) {
+                return $expectedRawData;
+            });
+
+        Cache::shouldReceive('remember')
+            ->once()
+            ->withArgs(function ($key) {
+                return str_contains($key, 'stock_data_');
+            })
+            ->andReturnUsing(function ($key, $ttl, $callback) use ($filtered) {
+                return $callback();
+            });
+
+        $mockClient = $this->createMock(Client::class);
+        $mockClient->expects($this->never())
+        ->method('get');
+
+        $mockHelper = $this->createMock(StockArrayHelper::class);
+        $mockHelper->expects($this->once())
+            ->method('filterArrayByRange')
+            ->with($expectedRawData['body'], '2025-04-07', '2025-04-07')
+            ->willReturn($filtered);
+
+        $service = new StockReportsService($mockHelper, $mockClient);
+
+        $result = $service->getPrices('AAPL', '2025-04-07', '2025-04-07');
+
+        $this->assertEquals($filtered, $result);
     }
 
-    public function test_fail_on_empty_request()
+    public function test_get_prices_returns_cached_data()
     {
-        $this->request->shouldReceive('input')
-            ->with('symbol')
-            ->andReturnNull();
-        $this->request->shouldReceive('input')
-            ->with('start_date')
-            ->andReturnNull();
-        $this->request->shouldReceive('input')
-            ->with('end_date')
-            ->andReturnNull();
+        $cached = [
+            ['date' => '07-04-2025', 'close' => 181.46],
+        ];
 
-        $this->service->shouldReceive('getPrices')
-            ->andReturn([]);
+        Cache::shouldReceive('remember')
+            ->once()
+            ->andReturn($cached);
 
-        $this->assertEquals(
-            [],
-            $this->service->getPrices($this->request)
-        );
-    }
+        $mockHelper = $this->createMock(StockArrayHelper::class);
+        $mockClient = $this->createMock(Client::class);
 
-    public function test_success()
-    {
-        $this->request->shouldReceive('input')
-            ->with('symbol')
-            ->andReturn('GOOGL');
-        $this->request->shouldReceive('input')
-            ->with('start_date')
-            ->andReturn('2022-09-14');
-        $this->request->shouldReceive('input')
-            ->with('end_date')
-            ->andReturn('2022-09-16');
+        $service = new StockReportsService($mockHelper, $mockClient);
 
-        $this->service->shouldReceive('getPrices')
-            ->andReturn($this->array);
+        $result = $service->getPrices('AAPL', '2025-04-07', '2025-04-07');
 
-        $result = $this->service->getPrices($this->request);
-
-        $this->assertEquals(
-            $this->array,
-            $result
-        );
+        $this->assertEquals($cached, $result);
     }
 }
