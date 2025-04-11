@@ -65,9 +65,40 @@ window.Echo.channel(`stock-data.${jobId}`)
 
             tableBody.appendChild(row);
         });
+
+        const chartDataPoints = Object.values(data).map(item => ({
+            x: new Date(item.date_utc),
+            y: [
+                item.open,
+                item.high,
+                item.low,
+                item.close
+            ]
+        }));
+
+        const chart = new CanvasJS.Chart("chartContainer", {
+            theme: "light2",
+            title: {
+                text: "OHLC Chart"
+            },
+            axisX: {
+                valueFormatString: "DD MMM YY",
+                intervalType: "month",
+                interval: 1
+            },
+            axisY: {
+                title: "Stock Price (USD)",
+                prefix: "$"
+            },
+            data: [{
+                type: "ohlc",
+                xValueType: "dateTime",
+                yValueFormatString: "$#,##0.0",
+                xValueFormatString: "MMM DD",
+                dataPoints: chartDataPoints
+            }]
+        });
+
+        chart.render();
     });
 
-window.Echo.channel('stock-data.test-123')
-    .listen('.StockDataReady', (e) => {
-        console.log('✅ Got socket.io broadcast:', e);
-    });

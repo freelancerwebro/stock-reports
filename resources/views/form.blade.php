@@ -90,59 +90,6 @@
                 </form>
             </div>
         </div>
-        @php $chartDataPoints = []; @endphp
-
-        @if(session('prices'))
-            <div class="card mt-4">
-                <div class="card-header text-left font-weight-bold">
-                    <h5>Search results:</h5>
-                </div>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Open</th>
-                            <th scope="col">High</th>
-                            <th scope="col">Low</th>
-                            <th scope="col">Close</th>
-                            <th scope="col">Volume</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            @php $chartDataPoints = []; @endphp
-                            @foreach (session('prices') as $row => $value)
-                                <tr>
-                                    <th scope="row">@php echo ($row); @endphp</th>
-                                    <td>@php echo $value['date']; @endphp</td>
-                                    <td>@php echo $value['open']; @endphp</td>
-                                    <td>@php echo $value['high']; @endphp</td>
-                                    <td>@php echo $value['low']; @endphp</td>
-                                    <td>@php echo $value['close']; @endphp</td>
-                                    <td>@php echo $value['volume']; @endphp</td>
-                                </tr>
-
-                                @php
-                                    $pointsRow = [
-                                        'x' => strtotime($value['date']),
-                                        'y' => [
-                                            $value['open'],
-                                            $value['high'],
-                                            $value['low'],
-                                            $value['close'],
-                                        ],
-                                    ];
-                                    $chartDataPoints[] = $pointsRow;
-                                @endphp
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div id="chartContainer" style="height: 370px; width: 100%;" class="mt-4"></div>
-        @endif
 
         @if(!empty(session('error')))
             <div class="alert alert-danger mt-4">
@@ -185,6 +132,8 @@
                 window.jobId = '{{ $jobId }}';
                 console.log('✅ window.jobId is set:', window.jobId);
             </script>
+
+            <div id="chartContainer" style="height: 370px; width: 100%;" class="mt-4"></div>
         @endif
     </div>
 
@@ -215,34 +164,10 @@
                 }
                 return date;
             }
-
-            /*var chart = new CanvasJS.Chart("chartContainer", {
-                theme: "light2",
-                title: {
-                    text: "OHLC Chart"
-                },
-                axisX: {
-                    valueFormatString: "DDMMMYY",
-                    intervalType: "year",
-                    interval: 1
-                },
-                axisY: {
-                    title: "Stock Price (in USD)",
-                    prefix: "$"
-                },
-                data: [{
-                    type: "ohlc",
-                    xValueType: "dateTime",
-                    yValueFormatString: "$#,##0.0",
-                    xValueFormatString: "MMM",
-                    dataPoints: <?php //echo json_encode($chartDataPoints, JSON_NUMERIC_CHECK); ?>
-                }]
-            });
-            chart.render();*/
         } );
     </script>
 
-    <!--<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>-->
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>
 </html>
 
