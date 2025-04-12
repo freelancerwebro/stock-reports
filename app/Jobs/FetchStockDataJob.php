@@ -37,7 +37,7 @@ class FetchStockDataJob implements ShouldQueue
         );
 
         $result = [
-            'data' => $prices ?? [],
+            'data' => $prices,
             'fields' => [
                 'symbol' => $this->symbol,
                 'startDate' => $this->startDate,

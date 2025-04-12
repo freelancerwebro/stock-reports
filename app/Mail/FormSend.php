@@ -10,6 +10,7 @@ class FormSend extends Mailable
 {
     use Queueable, SerializesModels;
 
+    private string $body;
     /**
      * Create a new message instance.
      *
