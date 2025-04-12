@@ -20,6 +20,7 @@
         "phpmd/phpmd": "^2.15",
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^10.0",
+        "rector/rector": "^2.0",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
@@ -37,6 +38,8 @@
     "scripts": {
         "phpstan": "vendor/bin/phpstan analyse --memory-limit=2G",
         "phpmd": "vendor/bin/phpmd app ansi phpmd.xml",
+        "rector": "vendor/bin/rector process app --dry-run",
+        "rector-fix": "vendor/bin/rector process app",
         "cs": ["@phpstan", "@phpmd"],
         "test" : "php -dmemory_limit=2G vendor/bin/phpunit"
     },
