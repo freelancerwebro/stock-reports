@@ -21,8 +21,8 @@ class StockDataReady implements ShouldBroadcast
 
     public function broadcastOn(): Channel
     {
-        $response = new Channel('stock-data.' . $this->jobId);
-        Log::debug('StockDataReady response for job ID ' . $this->jobId, ['response' => $response]);
+        $response = new Channel('stock-data.'.$this->jobId);
+        Log::debug('StockDataReady response for job ID '.$this->jobId, ['response' => $response]);
 
         return $response;
     }
@@ -45,6 +45,7 @@ class StockDataReady implements ShouldBroadcast
     public function getCompanyName(): string
     {
         $company = Company::where('symbol', $this->getSymbol())->first();
+
         return $company->name;
     }
 

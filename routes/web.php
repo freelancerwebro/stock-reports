@@ -17,4 +17,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [FormController::class, 'index']);
 Route::post('/submit', [FormController::class, 'submit']);
 Route::get('/listen/{jobId}', [FormController::class, 'listen']);
-

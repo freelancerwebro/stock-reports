@@ -16,15 +16,15 @@ class StockReportsServiceTest extends TestCase
     {
         $expectedRawData = [
             'body' => [
-                "1744032600" => [
+                '1744032600' => [
                     'date' => '07-04-2025',
                     'close' => 181.46,
                 ],
-                "1744119000" => [
+                '1744119000' => [
                     'date' => '08-04-2025',
                     'close' => 184.12,
-                ]
-            ]
+                ],
+            ],
         ];
 
         $filtered = [
@@ -34,7 +34,7 @@ class StockReportsServiceTest extends TestCase
         $mockCache = $this->createMock(CacheContract::class);
         $mockCache->expects($this->exactly(2))
             ->method('remember')
-            ->willReturnCallback(function ($key, $ttl, $callback) use ($expectedRawData, $filtered) {
+            ->willReturnCallback(function ($key, $ttl, $callback) use ($expectedRawData) {
                 if (str_contains($key, 'stock_raw_data_')) {
                     return $expectedRawData;
                 }
@@ -48,7 +48,7 @@ class StockReportsServiceTest extends TestCase
 
         $mockClient = $this->createMock(Client::class);
         $mockClient->expects($this->never())
-        ->method('get');
+            ->method('get');
 
         $mockHelper = $this->createMock(StockArrayHelper::class);
         $mockHelper->expects($this->once())

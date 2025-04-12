@@ -78,7 +78,7 @@ class FormControllerTest extends TestCase
                 'end_date',
                 'start_date',
                 'symbol',
-            ]
+            ],
         ]);
     }
 
@@ -95,7 +95,7 @@ class FormControllerTest extends TestCase
         $response->assertJsonStructure([
             'errors' => [
                 'symbol',
-            ]
+            ],
         ]);
         $this->assertEquals(
             'The selected symbol is invalid.',

@@ -16,7 +16,7 @@ class FormPostRequestTest extends TestCase
     {
         parent::setUp();
 
-        $this->rules = (new FormPostRequest())->rules();
+        $this->rules = (new FormPostRequest)->rules();
         $this->validator = $this->app['validator'];
     }
 

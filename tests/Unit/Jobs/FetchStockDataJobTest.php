@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Jobs;
 
+use App\Events\StockDataReady;
 use App\Jobs\FetchStockDataJob;
 use App\Services\StockReportsService;
-use App\Events\StockDataReady;
 use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 

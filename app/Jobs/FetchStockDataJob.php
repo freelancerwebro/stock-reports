@@ -24,9 +24,6 @@ class FetchStockDataJob implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @param StockReportsService $service
-     * @return void
      */
     public function handle(StockReportsService $service): void
     {
@@ -43,7 +40,7 @@ class FetchStockDataJob implements ShouldQueue
                 'startDate' => $this->startDate,
                 'endDate' => $this->endDate,
                 'email' => $this->email,
-            ]
+            ],
         ];
 
         event(new StockDataReady($this->jobId, $result));

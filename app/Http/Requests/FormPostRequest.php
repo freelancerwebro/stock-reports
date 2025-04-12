@@ -19,7 +19,7 @@ class FormPostRequest extends FormRequest
             'symbol' => [
                 'required',
                 'max:5',
-                'exists:App\Models\Company,symbol'
+                'exists:App\Models\Company,symbol',
             ],
             'email' => 'required|email|max:255',
             'start_date' => [

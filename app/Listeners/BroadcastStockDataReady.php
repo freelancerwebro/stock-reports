@@ -10,7 +10,5 @@ class BroadcastStockDataReady implements ShouldQueue
 {
     use InteractsWithQueue;
 
-    public function handle(StockDataReady $event): void
-    {
-    }
+    public function handle(StockDataReady $event): void {}
 }

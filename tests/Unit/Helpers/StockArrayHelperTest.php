@@ -33,10 +33,10 @@ class StockArrayHelperTest extends TestCase
                 'date_utc' => '1661990400', // 2022-09-01
                 'open' => '101.06999969482',
                 'high' => '109.12000274658',
-            ]
+            ],
         ];
 
-        $this->helper = new StockArrayHelper();
+        $this->helper = new StockArrayHelper;
     }
 
     public function test_fail_with_empty_array()
@@ -84,7 +84,7 @@ class StockArrayHelperTest extends TestCase
                     'date_utc' => '1663113600', // 2022-09-14
                     'open' => '104.06999969482',
                     'high' => '105.12000274658',
-                ]
+                ],
             ],
             $result
         );

@@ -11,14 +11,14 @@ use Illuminate\Contracts\Cache\Repository as CacheContract;
 class StockReportsService
 {
     public const CACHE_KEY_RAW_DATA = 'stock_raw_data_%s';
+
     public const CACHE_KEY = 'stock_data_%s_%s_%s';
 
     public function __construct(
         private readonly CacheContract $cache,
         private readonly StockArrayHelper $stockArrayHelper,
         private readonly Client $client
-    ) {
-    }
+    ) {}
 
     private function getRawData(string $symbol)
     {
@@ -32,11 +32,12 @@ class StockReportsService
                 'headers' => [
                     'X-RapidAPI-Host' => config('rapidapi.header_host'),
                     'X-RapidAPI-Key' => config('rapidapi.header_key'),
-                ]
+                ],
             ]);
 
-            $res = $client->get(config('rapidapi.base_uri') . "?symbol=" . $symbol ."&interval=1d&diffandsplits=false");
+            $res = $client->get(config('rapidapi.base_uri').'?symbol='.$symbol.'&interval=1d&diffandsplits=false');
             $json = $res->getBody()->getContents();
+
             return json_decode($json, true);
         });
     }

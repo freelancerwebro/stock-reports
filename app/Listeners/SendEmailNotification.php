@@ -14,7 +14,9 @@ use Illuminate\Support\Facades\Mail;
 class SendEmailNotification implements ShouldQueue
 {
     use InteractsWithQueue;
+
     private string $subject = 'Stock historical data for %s (%s)';
+
     private string $body = 'From %s to %s';
 
     public function handle(StockDataReady $event): void
