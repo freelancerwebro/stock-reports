@@ -6,14 +6,15 @@ namespace App\Services;
 
 use App\Helpers\StockArrayHelper;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Contracts\Cache\Repository as CacheContract;
 
 class StockReportsService
 {
-    private const CACHE_KEY_RAW_DATA = 'stock_raw_data_%s';
-    private const CACHE_KEY = 'stock_data_%s_%s_%s';
+    public const CACHE_KEY_RAW_DATA = 'stock_raw_data_%s';
+    public const CACHE_KEY = 'stock_data_%s_%s_%s';
 
     public function __construct(
+        private readonly CacheContract $cache,
         private readonly StockArrayHelper $stockArrayHelper,
         private readonly Client $client
     ) {
@@ -26,7 +27,7 @@ class StockReportsService
             $symbol
         );
 
-        return Cache::remember($cacheKey, now()->addDay(), function () use ($symbol) {
+        return $this->cache->remember($cacheKey, now()->addDay(), function () use ($symbol) {
             $client = new $this->client([
                 'headers' => [
                     'X-RapidAPI-Host' => config('rapidapi.header_host'),
@@ -52,7 +53,7 @@ class StockReportsService
             $endDate
         );
 
-        return Cache::remember($cacheKey, now()->addDay(), function () use (
+        return $this->cache->remember($cacheKey, now()->addDay(), function () use (
             $symbol,
             $startDate,
             $endDate

@@ -7,7 +7,7 @@ namespace Tests\Unit\Services;
 use App\Helpers\StockArrayHelper;
 use App\Services\StockReportsService;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Contracts\Cache\Repository as CacheContract;
 use Tests\TestCase;
 
 class StockReportsServiceTest extends TestCase
@@ -31,22 +31,19 @@ class StockReportsServiceTest extends TestCase
             ['date' => '07-04-2025', 'close' => 181.46],
         ];
 
-        Cache::shouldReceive('remember')
-            ->once()
-            ->withArgs(function ($key) {
-                return str_contains($key, 'stock_raw_data_');
-            })
-            ->andReturnUsing(function () use ($expectedRawData) {
-                return $expectedRawData;
-            });
+        $mockCache = $this->createMock(CacheContract::class);
+        $mockCache->expects($this->exactly(2))
+            ->method('remember')
+            ->willReturnCallback(function ($key, $ttl, $callback) use ($expectedRawData, $filtered) {
+                if (str_contains($key, 'stock_raw_data_')) {
+                    return $expectedRawData;
+                }
 
-        Cache::shouldReceive('remember')
-            ->once()
-            ->withArgs(function ($key) {
-                return str_contains($key, 'stock_data_');
-            })
-            ->andReturnUsing(function ($key, $ttl, $callback) use ($filtered) {
-                return $callback();
+                if (str_contains($key, 'stock_data_')) {
+                    return $callback();
+                }
+
+                return null;
             });
 
         $mockClient = $this->createMock(Client::class);
@@ -59,7 +56,7 @@ class StockReportsServiceTest extends TestCase
             ->with($expectedRawData['body'], '2025-04-07', '2025-04-07')
             ->willReturn($filtered);
 
-        $service = new StockReportsService($mockHelper, $mockClient);
+        $service = new StockReportsService($mockCache, $mockHelper, $mockClient);
 
         $result = $service->getPrices('AAPL', '2025-04-07', '2025-04-07');
 
@@ -72,14 +69,15 @@ class StockReportsServiceTest extends TestCase
             ['date' => '07-04-2025', 'close' => 181.46],
         ];
 
-        Cache::shouldReceive('remember')
-            ->once()
-            ->andReturn($cached);
+        $mockCache = $this->createMock(CacheContract::class);
+        $mockCache->expects($this->once())
+            ->method('remember')
+            ->willReturn($cached);
 
         $mockHelper = $this->createMock(StockArrayHelper::class);
         $mockClient = $this->createMock(Client::class);
 
-        $service = new StockReportsService($mockHelper, $mockClient);
+        $service = new StockReportsService($mockCache, $mockHelper, $mockClient);
 
         $result = $service->getPrices('AAPL', '2025-04-07', '2025-04-07');
 
