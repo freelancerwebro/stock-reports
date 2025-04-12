@@ -40,7 +40,7 @@
         "phpmd": "vendor/bin/phpmd app ansi phpmd.xml",
         "rector": "vendor/bin/rector process app --dry-run",
         "rector-fix": "vendor/bin/rector process app",
-        "cs": ["@phpstan", "@phpmd"],
+        "cs": ["@phpstan", "@phpmd", "rector"],
         "test" : "php -dmemory_limit=2G vendor/bin/phpunit"
     },
     "extra": {
