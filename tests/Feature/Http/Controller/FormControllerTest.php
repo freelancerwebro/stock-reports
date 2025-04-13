@@ -14,11 +14,6 @@ class FormControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function beginDatabaseTransaction()
-    {
-        // no-op
-    }
-
     public function test_index_returns_form_view()
     {
         $response = $this->get('/');
