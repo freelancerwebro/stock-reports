@@ -8,7 +8,6 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 
 class StockDataReady implements ShouldBroadcast
 {
@@ -21,10 +20,7 @@ class StockDataReady implements ShouldBroadcast
 
     public function broadcastOn(): Channel
     {
-        $response = new Channel('stock-data.'.$this->jobId);
-        Log::debug('StockDataReady response for job ID '.$this->jobId, ['response' => $response]);
-
-        return $response;
+        return new Channel('stock-data.'.$this->jobId);
     }
 
     public function broadcastWith(): array

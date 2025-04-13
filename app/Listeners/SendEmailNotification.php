@@ -7,8 +7,8 @@ namespace App\Listeners;
 use App\Events\StockDataReady;
 use App\Mail\FormSend;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Log\Logger;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class SendEmailNotification implements ShouldQueue
@@ -19,9 +19,11 @@ class SendEmailNotification implements ShouldQueue
 
     private string $body = 'From %s to %s';
 
+    public function __construct(private readonly Logger $logger) {}
+
     public function handle(StockDataReady $event): void
     {
-        Log::debug('SendEmailNotification event triggered', [
+        $this->logger->debug('SendEmailNotification event triggered', [
             'event' => $event,
         ]);
         $subject = sprintf(

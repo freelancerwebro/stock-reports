@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Events\StockDataReady;
-use App\Listeners\BroadcastStockDataReady;
 use App\Listeners\SendEmailNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -16,7 +15,6 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         StockDataReady::class => [
-            BroadcastStockDataReady::class,
             SendEmailNotification::class,
         ],
     ];

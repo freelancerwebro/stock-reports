@@ -44,7 +44,7 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $e): void {
-            //
+            logger()->debug('An exception was caught', ['exception' => $e]);
         });
     }
 }

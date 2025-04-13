@@ -14,4 +14,6 @@
     <exclude-pattern>*/tests/*</exclude-pattern>
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <exclude-pattern>*/database/migrations/*</exclude-pattern>
+    <exclude-pattern>*/app/Providers/*</exclude-pattern>
+    <exclude-pattern>*/app/Console/Kernel.php</exclude-pattern>
 </ruleset>
