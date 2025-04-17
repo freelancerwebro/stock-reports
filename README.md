@@ -1,18 +1,18 @@
-# 📊 Stock Reports App
+# Stock Reports App
 
 A Laravel-based web application for fetching, caching, and reporting historical stock price data from Rapid API. Users can submit a company symbol and date range, then receive a processed response via real-time WebSocket updates.
 
-## 🚀 Features
+## Features
 
 - Form-based submission for stock symbol, date range, and user email
 - Fetches stock data from external API (RapidAPI)
 - Smart caching with Redis (1-day expiration)
 - Queue-based background processing with Laravel jobs
-- Real-time feedback with **Laravel Echo Server + Socket.IO**
+- Real-time feedback with Laravel Echo Server + Socket.IO
 - Form validation
 - PHPUnit tests
 
-## 📦 Technologies
+## Technologies
 
 - Laravel 12
 - PHP 8.4
